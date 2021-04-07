@@ -36,12 +36,14 @@ def install_dependencies():
     # Install the build dependencies for our requirements (paramiko)
     subprocess.check_call(["apt-get", "install", "-y", "libffi-dev", "libssl-dev"],)
 
-    REQUIREMENTS_TXT = "{}/requirements.txt".format(os.environ["JUJU_CHARM_DIR"])
-    if os.path.exists(REQUIREMENTS_TXT):
-        subprocess.check_call(
-            [sys.executable, "-m", "pip", "install", "-r", REQUIREMENTS_TXT],
-        )
-
+    # This will never work because the new paramiko depends on a new pip3
+    # and the new pip3 depends on python3 >= 3.6
+    # REQUIREMENTS_TXT = "{}/requirements.txt".format(os.environ["JUJU_CHARM_DIR"])
+    # if os.path.exists(REQUIREMENTS_TXT):
+    #     subprocess.check_call(
+    #         [sys.executable, "-m", "pip", "install", "-r", REQUIREMENTS_TXT],
+    #     )
+    subprocess.check_call(["apt-get", "install", "-y", "python3-paramiko"],)
 
 try:
     from charms.osm.sshproxy import SSHProxy
